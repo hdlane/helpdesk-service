@@ -10,6 +10,10 @@ public class Computer
     public string UserName { get; set; }
     public string LastContact { get; set; }
     public string IpAddress { get; set; }
+    public string? Uptime { get; set; }
+    public string? Os {  get; set; }
+    public string? Drive {  get; set; }
+    public string? Model { get; set; }
 
     public Computer()
     {
@@ -17,7 +21,11 @@ public class Computer
         this.MacAddress = GetMac();
         this.UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         this.IpAddress = GetIp();
-        this.LastContact = GetTime();
+        this.LastContact = "7/11/21 12:00:00";
+        this.Uptime = "2 days";
+        this.Os = "Windows 11";
+        this.Model = "Dell";
+        this.Drive = "64";
     }
 
     public string GetMac()

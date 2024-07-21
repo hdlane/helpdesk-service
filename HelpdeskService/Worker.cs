@@ -8,6 +8,7 @@ namespace HelpdeskService;
 public class Worker : BackgroundService
 {
     //private readonly ILogger<Worker> _logger;
+    private string Url = "http://127.0.0.1:5000";
     Computer computer = new Computer();
 
     /*
@@ -68,12 +69,8 @@ public class Worker : BackgroundService
         {
             if (InfoChanged(computer))
             {
-                await this.PostJson("http://127.0.0.1:5000/helpdesk/service", computer);
+                await this.PostJson(Url, computer);
             }
-            //if (_logger.IsEnabled(LogLevel.Information))
-            //{
-            //    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            //}
             await Task.Delay(10000, stoppingToken);
         }
     }
