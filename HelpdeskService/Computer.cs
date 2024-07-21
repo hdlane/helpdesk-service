@@ -21,7 +21,7 @@ public class Computer
         this.MacAddress = GetMac();
         this.UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         this.IpAddress = GetIp();
-        this.LastContact = "7/11/21 12:00:00";
+        this.LastContact = DateTimeOffset.Now.ToString("MM/dd/yy HH:mm:ss");
         this.Uptime = "2 days";
         this.Os = "Windows 11";
         this.Model = "Dell";
@@ -78,18 +78,12 @@ public class Computer
         return computerIps[0];
     }
 
-    public string GetTime()
-    {
-        DateTime dateTime = DateTime.Now;
-        return dateTime.ToString("MM/dd/yy H:mm:ss:ff");
-    }
-
     public void GetInfo()
     {
         this.ComputerName = Environment.MachineName;
         this.MacAddress = GetMac();
         this.UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         this.IpAddress = GetIp();
-        this.LastContact = GetTime();
+        this.LastContact = DateTimeOffset.Now.ToString("MM/dd/yy HH:mm:ss");
     }
 }
