@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System.Management;
+using System.Net;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 
 namespace ComputerInfo;
 
@@ -11,21 +13,22 @@ public class Computer
     public string LastContact { get; set; }
     public string IpAddress { get; set; }
     public string? Uptime { get; set; }
-    public string? Os {  get; set; }
-    public string? Drive {  get; set; }
+    public string? Os { get; set; }
+    public string? Drive { get; set; }
     public string? Model { get; set; }
 
     public Computer()
     {
         this.ComputerName = Environment.MachineName;
         this.MacAddress = GetMac();
-        this.UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        this.UserName = Environment.UserName;
         this.IpAddress = GetIp();
         this.LastContact = DateTimeOffset.Now.ToString("MM/dd/yy HH:mm:ss");
-        this.Uptime = "2 days";
-        this.Os = "Windows 11";
-        this.Model = "Dell";
+        this.Uptime = GetUptime();
+        this.Os = GetOs();
+        this.Model = GetModel();
         this.Drive = "64";
+        Console.WriteLine(this.Model);
     }
 
     public string GetMac()
@@ -40,11 +43,6 @@ public class Computer
 
         foreach (NetworkInterface adapter in nics)
         {
-            //IPInterfaceProperties properties = adapter.GetIPProperties();
-            //Console.WriteLine();
-            //Console.WriteLine(adapter.Description);
-            //Console.WriteLine(String.Empty.PadLeft(adapter.Description.Length, '='));
-            //Console.WriteLine("  Interface type ............................ : {0}", adapter.NetworkInterfaceType);
             PhysicalAddress address = adapter.GetPhysicalAddress();
             List<string> macAddress = [];
             byte[] bytes = address.GetAddressBytes();
@@ -53,7 +51,6 @@ public class Computer
                 macAddress.Add($"{bytes[i].ToString("X2")}");
             }
             string mac = String.Join("-", macAddress);
-            //Console.WriteLine("  Physical address ............................ : {0}", mac);
             macAddresses.Add(mac);
         }
 
@@ -78,12 +75,58 @@ public class Computer
         return computerIps[0];
     }
 
+    public string GetUptime()
+    {
+        var ms = Environment.TickCount64;
+        TimeSpan time = TimeSpan.FromMilliseconds(ms);
+        string days = Math.Floor(time.TotalDays).ToString();
+        return days;
+    }
+
+    public static string GetOs()
+    {
+        //string os = Environment.OSVersion.ToString();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return $"Windows";
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return $"Linux";
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return $"MacOs";
+        }
+        else
+        {
+            return "Unknown";
+        }
+    }
+
+    public string GetModel()
+    {
+        // Only returning the Name field and not Manufacturer or Model
+        string model = "";
+        string wmiQuery = "SELECT * FROM Win32_ComputerSystem";
+        ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery);
+        ManagementObjectCollection results = searcher.Get();
+        foreach (ManagementObject result in results) {
+            Console.WriteLine(result.ToString());
+            model += result.ToString();
+        }
+        return model;
+    }
+
     public void GetInfo()
     {
         this.ComputerName = Environment.MachineName;
         this.MacAddress = GetMac();
-        this.UserName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        this.UserName = Environment.UserName;
         this.IpAddress = GetIp();
         this.LastContact = DateTimeOffset.Now.ToString("MM/dd/yy HH:mm:ss");
+        this.Uptime = GetUptime();
+        this.Os = GetOs();
+        this.Model = GetModel();
     }
 }
