@@ -1,4 +1,4 @@
-﻿using System.Management;
+﻿// using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -27,7 +27,7 @@ public class Computer
         this.Uptime = GetUptime();
         this.Os = GetOs();
         this.Model = GetModel();
-        this.Drive = "64";
+        this.Drive = GetDrive();
         Console.WriteLine(this.Model);
     }
 
@@ -104,18 +104,34 @@ public class Computer
         }
     }
 
+    public string GetDrive()
+    {
+        DriveInfo[] allDrives = DriveInfo.GetDrives();
+
+        foreach (DriveInfo d in allDrives)
+        {
+            Console.WriteLine($"Drive: {d.Name}");
+            Console.WriteLine($"Size: {d.TotalSize / 1024 / 1024 / 1024}");
+            Console.WriteLine($"Format: {d.DriveFormat}");
+            Console.WriteLine($"Free Space: {d.AvailableFreeSpace / 1024 / 1024 / 1024}");
+        }
+        return "";
+    }
+
     public string GetModel()
     {
         // Only returning the Name field and not Manufacturer or Model
-        string model = "";
-        string wmiQuery = "SELECT * FROM Win32_ComputerSystem";
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery);
-        ManagementObjectCollection results = searcher.Get();
-        foreach (ManagementObject result in results) {
-            Console.WriteLine(result.ToString());
-            model += result.ToString();
-        }
-        return model;
+        // string model = "";
+        // string wmiQuery = "SELECT * FROM Win32_ComputerSystem";
+        // ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery);
+        // ManagementObjectCollection results = searcher.Get();
+        // foreach (ManagementObject result in results)
+        // {
+        //     Console.WriteLine(result.ToString());
+        //     model += result.ToString();
+        // }
+        // return model;
+        return "";
     }
 
     public void GetInfo()
@@ -128,5 +144,6 @@ public class Computer
         this.Uptime = GetUptime();
         this.Os = GetOs();
         this.Model = GetModel();
+        this.Drive = GetDrive();
     }
 }
