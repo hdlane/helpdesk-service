@@ -110,10 +110,14 @@ public class Computer
 
         foreach (DriveInfo d in allDrives)
         {
-            Console.WriteLine($"Drive: {d.Name}");
-            Console.WriteLine($"Size: {d.TotalSize / 1024 / 1024 / 1024}");
-            Console.WriteLine($"Format: {d.DriveFormat}");
-            Console.WriteLine($"Free Space: {d.AvailableFreeSpace / 1024 / 1024 / 1024}");
+            if (d.IsReady)
+            {
+                long freeSpace = d.AvailableFreeSpace / 1024 / 1024 / 1024;
+                long totalSize = d.TotalSize / 1024 / 1024 / 1024;
+                Console.WriteLine($"Drive: {d.Name}");
+                Console.WriteLine($"Format: {d.DriveFormat}");
+                Console.WriteLine($"{freeSpace}GB / {totalSize}GB");
+            }
         }
         return "";
     }
