@@ -108,18 +108,13 @@ public class Computer
     {
         DriveInfo[] allDrives = DriveInfo.GetDrives();
 
-        foreach (DriveInfo d in allDrives)
+        if (allDrives[0].IsReady)
         {
-            if (d.IsReady)
-            {
-                long freeSpace = d.AvailableFreeSpace / 1024 / 1024 / 1024;
-                long totalSize = d.TotalSize / 1024 / 1024 / 1024;
-                Console.WriteLine($"Drive: {d.Name}");
-                Console.WriteLine($"Format: {d.DriveFormat}");
-                Console.WriteLine($"{freeSpace}GB / {totalSize}GB");
-            }
+            var drive = allDrives[0];
+            long freeSpace = drive.AvailableFreeSpace / 1024 / 1024 / 1024;
+            return $"{freeSpace.ToString()}GB";
         }
-        return "";
+        return "Unknown";
     }
 
     public string GetModel()
