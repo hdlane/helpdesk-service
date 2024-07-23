@@ -1,4 +1,4 @@
-﻿// using System.Management;
+﻿using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -119,18 +119,23 @@ public class Computer
 
     public string GetModel()
     {
-        // Only returning the Name field and not Manufacturer or Model
-        // string model = "";
-        // string wmiQuery = "SELECT * FROM Win32_ComputerSystem";
-        // ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery);
-        // ManagementObjectCollection results = searcher.Get();
-        // foreach (ManagementObject result in results)
-        // {
-        //     Console.WriteLine(result.ToString());
-        //     model += result.ToString();
-        // }
-        // return model;
-        return "";
+        string model = "";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            string query = "'SELECT * FROM Win32_ComputerSystem'";
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.RedirectStandardOutput = true;
+            startInfo.CreateNoWindow = true;
+            startInfo.UseShellExecute = false;
+            startInfo.FileName = "powershell.exe";
+            startInfo.Arguments = $"/C Get-WmiObject -Namespace 'root\\cimv2' -Query {query} | Select-Object Manufacturer, Model";
+            process.StartInfo = startInfo;
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd();
+            Console.WriteLine(output);
+        }
+        return model;
     }
 
     public void GetInfo()
