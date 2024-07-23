@@ -28,7 +28,6 @@ public class Computer
         this.Os = GetOs();
         this.Model = GetModel();
         this.Drive = GetDrive();
-        Console.WriteLine(this.Model);
     }
 
     public string GetMac()
@@ -119,23 +118,33 @@ public class Computer
 
     public string GetModel()
     {
-        string model = "";
+        List<string> model = [];
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             string query = "'SELECT * FROM Win32_ComputerSystem'";
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.RedirectStandardOutput = true;
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
-            startInfo.FileName = "powershell.exe";
-            startInfo.Arguments = $"/C Get-WmiObject -Namespace 'root\\cimv2' -Query {query} | Select-Object Manufacturer, Model";
-            process.StartInfo = startInfo;
-            process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            Console.WriteLine(output);
+            List<string> commands = [
+                $"/C Get-WmiObject -Namespace 'root\\cimv2' -Query {query} | Select-Object -ExpandProperty Model",
+                $"/C Get-WmiObject -Namespace 'root\\cimv2' -Query {query} | Select-Object -ExpandProperty Manufacturer"
+                ];
+            foreach (var command in commands)
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.RedirectStandardOutput = true;
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+                startInfo.FileName = "powershell.exe";
+                startInfo.Arguments = command;
+                process.StartInfo = startInfo;
+                process.Start();
+                model.Add(process.StandardOutput.ReadToEnd().Trim());
+            }
+            return String.Join(" ", model);
         }
-        return model;
+        else
+        {
+            return "Unknown";
+        }
     }
 
     public void GetInfo()
