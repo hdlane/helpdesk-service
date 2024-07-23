@@ -84,22 +84,14 @@ public class Computer
 
     public static string GetOs()
     {
-        //string os = Environment.OSVersion.ToString();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        int os = Environment.OSVersion.Version.Build;
+        if (os >= 22000)
         {
-            return $"Windows";
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            return $"Linux";
-        }
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            return $"MacOs";
+            return $"Windows 11 ({os})";
         }
         else
         {
-            return "Unknown";
+            return $"Windows 10 ({os})";
         }
     }
 
