@@ -7,16 +7,14 @@ namespace HelpdeskService;
 
 public class Worker : BackgroundService
 {
-    //private readonly ILogger<Worker> _logger;
+    private readonly ILogger<Worker> _logger;
     private string Url = "http://127.0.0.1:5000";
     Computer computer = new Computer();
 
-    /*
     public Worker(ILogger<Worker> logger)
     {
         _logger = logger;
     }
-    */
 
     public async Task<string> PostJson(string url, Computer computer)
     {
@@ -31,6 +29,7 @@ public class Worker : BackgroundService
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, "{Message}", ex.Message);
                 return ex.Message;
             }
         }
@@ -63,13 +62,26 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        try
         {
-            if (InfoChanged(computer))
+            while (!stoppingToken.IsCancellationRequested)
             {
                 await this.PostJson(Url, computer);
+                if (InfoChanged(computer))
+                {
+                    await this.PostJson(Url, computer);
+                }
+                await Task.Delay(10000, stoppingToken);
             }
-            await Task.Delay(10000, stoppingToken);
+        }
+        catch (OperationCanceledException)
+        {
+            Environment.Exit(0);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "{0}", ex.Message);
+            Environment.Exit(1);
         }
     }
 }
