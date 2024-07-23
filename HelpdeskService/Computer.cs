@@ -80,7 +80,7 @@ public class Computer
         var ms = Environment.TickCount64;
         TimeSpan time = TimeSpan.FromMilliseconds(ms);
         double days = Math.Floor(time.TotalDays);
-        return days == 0 ? $"{days.ToString()} day" : $"{days.ToString()} days";
+        return days == 1 ? $"{days.ToString()} day" : $"{days.ToString()} days";
     }
 
     public static string GetOs()
