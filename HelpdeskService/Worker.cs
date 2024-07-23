@@ -27,12 +27,10 @@ public class Worker : BackgroundService
             try
             {
                 var response = await client.PostAsync(url, content);
-                Console.WriteLine(await response.Content.ReadAsStringAsync());
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 return ex.Message;
             }
         }
