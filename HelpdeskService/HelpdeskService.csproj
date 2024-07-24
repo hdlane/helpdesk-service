@@ -4,7 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-HelpdeskService-0ff7c50d-8509-401b-970f-15ec640b7f6e</UserSecretsId>
+    <OutputType>exe</OutputType>
+    <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
