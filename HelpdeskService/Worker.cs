@@ -1,15 +1,15 @@
 using System.Text.Json;
 using System.Text;
 using ComputerInfo;
-using System.Diagnostics.Eventing.Reader;
+using Microsoft.Extensions.Configuration;
 
 namespace HelpdeskService;
 
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
-    private string Url = "http://127.0.0.1:5000";
-    Computer computer = new Computer();
+    private readonly string? server = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Endpoint")["Server"];
+    readonly Computer computer = new Computer();
 
     public Worker(ILogger<Worker> logger)
     {
@@ -18,6 +18,11 @@ public class Worker : BackgroundService
 
     public async Task<string> PostJson(string url, Computer computer)
     {
+        if (server == null || server == "")
+        {
+            _logger.LogError("Endpoint server URL not provided. Update the appsettings.json file.");
+            Environment.Exit(1);
+        }
         using (var client = new HttpClient())
         {
             string jsonString = JsonSerializer.Serialize(computer);
@@ -66,10 +71,9 @@ public class Worker : BackgroundService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await this.PostJson(Url, computer);
                 if (InfoChanged(computer))
                 {
-                    await this.PostJson(Url, computer);
+                    await this.PostJson(server, computer);
                 }
                 await Task.Delay(10000, stoppingToken);
             }
