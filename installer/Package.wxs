@@ -42,6 +42,9 @@
                       Source="$(var.HelpdeskService.TargetDir)HelpdeskService.exe"
                       KeyPath="true" />
 
+                <File Id="appsettings.json"
+                      Source="$(var.HelpdeskService.TargetDir)appsettings.json" />
+
                 <!-- Remove all files from the INSTALLFOLDER on uninstall -->
                 <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
 
