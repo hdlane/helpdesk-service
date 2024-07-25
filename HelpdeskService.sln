@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelpdeskService", "HelpdeskService\HelpdeskService.csproj", "{51648F8E-04E4-4FE8-AA08-081C02E11F22}"
 EndProject
 Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "installer", "installer\installer.wixproj", "{8FD88B18-4A42-459A-B17E-8E52541A654A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{51648F8E-04E4-4FE8-AA08-081C02E11F22} = {51648F8E-04E4-4FE8-AA08-081C02E11F22}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
