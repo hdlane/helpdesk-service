@@ -39,11 +39,11 @@
                 <!-- Copies the App.WindowsService.exe file using the
                      project reference preprocessor variables -->
                 <File Id="HelpdeskService.exe"
-                      Source="$(var.HelpdeskService.TargetDir)HelpdeskService.exe"
+                      Source="$(var.HelpdeskService.TargetDir)publish\HelpdeskService.exe"
                       KeyPath="true" />
 
                 <File Id="appsettings.json"
-                      Source="$(var.HelpdeskService.TargetDir)appsettings.json" />
+                      Source="$(var.HelpdeskService.TargetDir)publish\appsettings.json" />
 
                 <!-- Remove all files from the INSTALLFOLDER on uninstall -->
                 <RemoveFile Id="ALLFILES" Name="*.*" On="both" />

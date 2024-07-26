@@ -67,6 +67,7 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        await this.PostJson(server, computer);
         try
         {
             while (!stoppingToken.IsCancellationRequested)
