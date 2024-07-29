@@ -1,8 +1,6 @@
 using System.Text.Json;
 using System.Text;
 using ComputerInfo;
-using Microsoft.Extensions.Configuration;
-
 namespace HelpdeskService;
 
 public class Worker : BackgroundService
@@ -76,7 +74,7 @@ public class Worker : BackgroundService
                 {
                     await this.PostJson(server, computer);
                 }
-                await Task.Delay(10000, stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
         catch (OperationCanceledException)
