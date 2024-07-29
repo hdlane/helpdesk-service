@@ -10,7 +10,7 @@ The goal of the Helpdesk Service is to get information from computers and in fro
 
 ### Background
 
-While developing the Helpdesk Tool in-house, there were a couple different systems that were being used to gather information to populate the application. One of those systems was an inventory server that was limited on how often it could scan PCs to get information (like the current user logged in). This led to issues when users logged into their PC in between scans and the Helpdesk Tool wasn't up-to-date. This prompted me to develop a Windows service that sends that information to an endpoint more frequently and only when the computer's information changed.
+While developing the Helpdesk Tool, I wanted to get as close to live data as possible with Windows computers on the network. This prompted me to develop a Windows service that sends that information to an endpoint more frequently and only when the computer's information changed.
 
 ### Features
 
