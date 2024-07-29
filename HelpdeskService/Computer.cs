@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System.Management;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace ComputerInfo;
 
@@ -20,7 +22,7 @@ public class Computer
     {
         this.ComputerName = Environment.MachineName;
         this.MacAddress = GetMac();
-        this.UserName = Environment.UserName;
+        this.UserName = GetUserName();
         this.IpAddress = GetIp();
         this.LastContact = DateTimeOffset.Now.ToString("MM/dd/yy HH:mm:ss");
         this.Uptime = GetUptime();
@@ -35,7 +37,6 @@ public class Computer
         List<string> macAddresses = [];
         if (nics == null || nics.Length < 1)
         {
-            Console.WriteLine("No interfaces found");
             return "None";
         }
 
@@ -53,6 +54,18 @@ public class Computer
         }
 
         return macAddresses[0];
+    }
+
+    public string GetUserName()
+    {
+        string pattern = @"(?<=\\)([^\\]+)";
+        Match match;
+        Regex defaultRegex = new Regex(pattern);
+        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT UserName FROM Win32_ComputerSystem");
+        ManagementObjectCollection collection = searcher.Get();
+        string userName = (string)collection.Cast<ManagementBaseObject>().First()["UserName"];
+        match = defaultRegex.Match(userName);
+        return match.ToString();
     }
 
     public string GetIp()
@@ -142,7 +155,7 @@ public class Computer
     {
         this.ComputerName = Environment.MachineName;
         this.MacAddress = GetMac();
-        this.UserName = Environment.UserName;
+        this.UserName = GetUserName();
         this.IpAddress = GetIp();
         this.LastContact = DateTimeOffset.Now.ToString("MM/dd/yy HH:mm:ss");
         this.Uptime = GetUptime();
