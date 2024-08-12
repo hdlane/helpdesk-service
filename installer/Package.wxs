@@ -2,7 +2,7 @@
 
 <!-- Define the variables in "$(var.*) expressions" -->
 <?define Name = "Helpdesk Service" ?>
-<?define Manufacturer = "hdlane" ?>
+<?define Manufacturer = "Helpdesk" ?>
 <?define Version = "1.0.0.0" ?>
 <?define UpgradeCode = "9ED3FF33-8718-444E-B44B-69A2344B7E98" ?>
 
@@ -30,13 +30,13 @@
         <!--</Directory>-->
 
         <!-- The files inside this DirectoryRef are linked to
-             the App.WindowsService directory via INSTALLFOLDER -->
+             the HelpdeskService directory via INSTALLFOLDER -->
         <DirectoryRef Id="INSTALLFOLDER">
 
-            <!-- Create a single component which is the App.WindowsService.exe file -->
+            <!-- Create a single component which is the HelpdeskService.exe file -->
             <Component Id="ServiceExecutable" Bitness="always64">
 
-                <!-- Copies the App.WindowsService.exe file using the
+                <!-- Copies the HelpdeskService.exe file using the
                      project reference preprocessor variables -->
                 <File Id="HelpdeskService.exe"
                       Source="$(var.HelpdeskService.TargetDir)publish\HelpdeskService.exe"
