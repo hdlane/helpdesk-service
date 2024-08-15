@@ -53,6 +53,27 @@ While developing the Helpdesk Tool, I wanted to get as close to live data as pos
 
 ## Usage
 
+The Helpdesk Service is installed with the MSI file. It is installed as a Windows service that auto-starts when Windows boots. Every minute, the service will gather the following computer information:
+
+* Computer name
+* MAC address
+* Username of current user
+* IP Address
+* Windows OS information
+* Drive free space
+* Manufacturer and model
+* Uptime since last reboot
+
+Data will only be reported if there are changes in the computer name, username, or IP address. The service will also report when it first starts.
+
+### How to change API endpoint
+
+There is an appsettings.json file installed under C:\Program Files\Helpdesk\Helpdesk Service where you can adjust the endpoint. Update the "Server" key and then restart the service.
+
+### Error Logging
+
+Log entries like application startup / shutdown and errors are logged in Event Viewer under the Application category. You can find entries like a Warning if the endpoint is unreachable and other messages like that.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
