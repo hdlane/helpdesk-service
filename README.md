@@ -26,7 +26,7 @@ While developing the Helpdesk Tool, I wanted to get as close to live data as pos
 
 * Windows OS x64 or Arm64
 * The application - Can be downloaded from [Releases](https://github.com/hdlane/helpdesk-service/releases)
-* .NET 8.0 Desktop Runtime to run application
+* .NET 8.0 Desktop Runtime to run application (Installation will fail if you don't install this)
     * You will be prompted during the first launch of the app to download the runtime, or you can download below
     * [x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.8-windows-x64-installer?cid=getdotnetcore)
     * [Arm64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.8-windows-arm64-installer?cid=getdotnetcore)
