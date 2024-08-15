@@ -46,7 +46,7 @@ While developing the Helpdesk Tool, I wanted to get as close to live data as pos
 #### To Build Installer
 
 * Open the project in Visual Studio
-* Right click on the HelpdeskService project, and clicking Publish
+* Right click on the HelpdeskService project, and click Publish
     * If prompted for publish settings, select Folder as target, leave default Location, and then Publish
 * Right click on the installer project, and click Build
     * You can find the installer where you cloned the repo, then going to the installer folder
