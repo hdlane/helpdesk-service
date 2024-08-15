@@ -70,6 +70,10 @@ Data will only be reported if there are changes in the computer name, username, 
 
 There is an appsettings.json file installed under C:\Program Files\Helpdesk\Helpdesk Service where you can adjust the endpoint. Update the "Server" value and then restart the service.
 
+### How to uninstall
+
+The Helpdesk Service can be uninstalled like any other program. Go to the Windows installed programs and simply select the service and then uninstall. The service will be removed as well as the program files located at C:\Program Files\Helpdesk.
+
 ### Error Logging
 
 Log entries like application startup / shutdown and errors are logged in Event Viewer under the Application category. You can find entries like a Warning if the endpoint is unreachable and other messages like that.
